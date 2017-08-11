@@ -14,7 +14,7 @@ cf create-service p-mysql ${MYSQL_PLAN} ${MYSQL_SERVICE_NAME}
 cf bind-service ${APP_NAME} ${MYSQL_SERVICE_NAME}
 cf bind-service ${APP_NAME} ${NFS_SERVICE_NAME} -c "{\"uid\":\"0\",\"gid\":\"0\",\"mount\":\"${NFS_CLIENT_MOUNT}\"}"
 cf restart ${APP_NAME}
-cf ssh ${APP_NAME} -c "cd /tmp && wget https://wordpress.org/latest.tar.gz && tar xf latest.tar.gz && cp -R ./wordpress/wp-content/* ${NFS_CLIENT_MOUNT}/"
+cf ssh ${APP_NAME} -c "cd /tmp && wget https://wordpress.org/latest.tar.gz && tar xf latest.tar.gz && cp -R ./wordpress/wp-content/* ${NFS_CLIENT_MOUNT}/ && mkdir -p ${NFS_CLIENT_MOUNT}/uploads"
 cf ssh ${APP_NAME} -c "ln -s ${NFS_CLIENT_MOUNT}/index.php /home/vcap/app/htdocs/wp-content/index.php"
 cf ssh ${APP_NAME} -c "ln -s ${NFS_CLIENT_MOUNT}/plugins /home/vcap/app/htdocs/wp-content/plugins"
 cf ssh ${APP_NAME} -c "ln -s ${NFS_CLIENT_MOUNT}/themes /home/vcap/app/htdocs/wp-content/themes"
